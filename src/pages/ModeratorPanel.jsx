@@ -15,10 +15,10 @@ export default function ModeratorPanel(){
   const [denyTarget, setDenyTarget] = useState(null)
 
   useEffect(()=>{
-    const q = query(collection(db,'bug_reports'), orderBy('createdAt','desc'))
+    const q = query(collection(db,'bug_reports'))
     const stop = onSnapshot(q, (snap)=>{
       const list = snap.docs.map(d=>({id:d.id, ...d.data()}))
-        .sort((a,b)=> (statusOrder[a.status||'pending'] - statusOrder[b.status||'pending']))
+        .sort((a,b)=> ((b.createdAt?.toDate?.()?.getTime?.()||0) - (a.createdAt?.toDate?.()?.getTime?.()||0)))
       setReports(list)
     })
     return ()=>stop()
