@@ -1,3 +1,6 @@
+import daisyui from 'daisyui'
+import themes from 'daisyui/src/theming/themes'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -7,12 +10,12 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require('daisyui')],
+  plugins: [daisyui],
   daisyui: {
     themes: [
       {
         maturdark: {
-          ...require('daisyui/src/theming/themes')['[data-theme=dark]'],
+          ...themes['[data-theme=dark]'],
           primary: '#6EE7B7',
           secondary: '#93C5FD',
           accent: '#F472B6',
