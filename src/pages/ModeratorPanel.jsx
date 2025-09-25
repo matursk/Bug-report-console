@@ -18,7 +18,6 @@ export default function ModeratorPanel(){
     const q = query(collection(db,'bug_reports'), orderBy('createdAt','desc'))
     const stop = onSnapshot(q, (snap)=>{
       const list = snap.docs.map(d=>({id:d.id, ...d.data()}))
-        .filter(r => r.status !== 'elevated') // hidden when elevated
         .sort((a,b)=> (statusOrder[a.status||'pending'] - statusOrder[b.status||'pending']))
       setReports(list)
     })

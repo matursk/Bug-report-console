@@ -21,11 +21,12 @@ export default function UserDashboard(){
     if(!user) return
     const q = query(
       collection(db,'bug_reports'),
-      where('uid','==', user.uid),
-      orderBy('createdAt','desc')
+      where('uid','==', user.uid)
     )
     const stop = onSnapshot(q, (snap)=>{
-      setReports(snap.docs.map(d=>({id:d.id, ...d.data()})))
+      const list = snap.docs.map(d=>({id:d.id, ...d.data()}))
+        .sort((a,b)=> ((b.createdAt?.toDate?.()?.getTime?.()||0) - (a.createdAt?.toDate?.()?.getTime?.()||0)))
+      setReports(list)
     })
     return ()=>stop()
   },[user])

@@ -108,10 +108,10 @@ service cloud.firestore {
         request.resource.data.token == 'pr_matur_bugreport_v1' &&
         request.resource.data.app == 'pr_matur';
 
+      // Allow admins and moderators to read all; users can read their own
+      // UI hides elevated from moderators
       allow read: if isSignedIn() && (
-        isAdmin() ||
-        (isModerator() && resource.data.status != 'elevated') ||
-        resource.data.uid == request.auth.uid
+        isAdmin() || isModerator() || resource.data.uid == request.auth.uid
       );
 
       // Moderators/Admins can update status, reasons, and administrative fields
