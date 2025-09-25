@@ -1,0 +1,163 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() { return isSignedIn() && request.auth.uid == 'gTCyoZc6JFclEkueBg7wl2M8uzJ2'; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+    function isModerator() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['moderator','admin'];
+    }
+
+    // Stripe (legacy path, keep if you used it earlier)
+    match /customers/{uid} {
+      allow read: if isOwner(uid);
+      match /checkout_sessions/{id} {
+        allow read, write: if isOwner(uid);
+      }
+      match /subscriptions/{id} {
+        allow read: if isOwner(uid);
+      }
+      match /payments/{id} {
+        allow read: if isOwner(uid);
+      }
+    }
+
+    // Stripe extension default path
+    match /stripe_customers/{uid} {
+      allow read: if isOwner(uid);
+
+      match /checkout_sessions/{id} {
+        // client may create a session; extension (admin) will update it
+        allow create: if isOwner(uid)
+          && request.resource.data.keys().hasOnly([
+            'mode', 'price', 'allow_promotion_codes',
+            'success_url', 'cancel_url', 'metadata', 'customer_email'
+          ]);
+        allow get, list: if isOwner(uid);
+        allow update, delete: if false;
+      }
+
+      match /subscriptions/{id} {
+        allow read: if isOwner(uid);
+      }
+
+      match /payments/{id} {
+        allow read: if isOwner(uid);
+      }
+    }
+
+    match /products/{id} {
+      allow read: if true;
+      match /prices/{id} { allow read: if true; }
+      match /tax_rates/{id} { allow read: if true; }
+    }
+
+    // Lections
+    match /lections/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Questions
+    match /questions/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // User profile
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid);
+      // Owners can update their own profile
+      allow update: if isOwner(uid);
+      // Admin can update any user
+      allow update: if isAdmin();
+      // Moderators may only increase balance and touch updatedAt; they cannot alter role/isLocked/email
+      allow update: if isModerator()
+        && request.resource.data.balanceCents >= resource.data.balanceCents
+        && !request.resource.data.diff(resource.data).changedKeys().hasAny(['role','isLocked','email'])
+        && request.resource.data.diff(resource.data).changedKeys().hasOnly(['balanceCents','updatedAt']);
+      allow delete: if false;
+    }
+
+    // Attempts
+    match /users/{uid}/attempts/{attemptId} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid);
+      allow update, delete: if false;
+    }
+
+    // Repeat stats
+    match /users/{uid}/repeat_stats/{statId} {
+      allow read: if isOwner(uid);
+      allow create, update, delete: if isOwner(uid);
+    }
+
+    // Update gate
+    match /config/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Bug reports: mobile app creates with token+app; console reads/updates by role
+    match /bug_reports/{docId} {
+      allow create: if
+        request.resource.data.email is string &&
+        request.resource.data.details is string &&
+        request.resource.data.token == 'pr_matur_bugreport_v1' &&
+        request.resource.data.app == 'pr_matur';
+
+      allow read: if isSignedIn() && (
+        isAdmin() ||
+        (isModerator() && resource.data.status != 'elevated') ||
+        resource.data.uid == request.auth.uid
+      );
+
+      // Moderators/Admins can update status, reasons, and administrative fields
+      allow update: if isAdmin() || isModerator();
+      allow delete: if false;
+    }
+
+    // Withdrawals
+    match /withdrawals/{id} {
+      // Users can create their own withdrawal requests with limited schema
+      allow create: if isSignedIn()
+        && request.resource.data.userUid == request.auth.uid
+        && request.resource.data.status == 'requested'
+        && request.resource.data.amountCents is int
+        && request.resource.data.amountCents > 0
+        && request.resource.data.method in ['bank_sk','paypal']
+        && request.resource.data.keys().hasOnly([
+          'userUid','method','payload','amountCents','status','createdAt','relatedTransactionId'
+        ]);
+      allow read: if isSignedIn() && (isAdmin() || isModerator() || resource.data.userUid == request.auth.uid);
+      // Only staff can update (e.g., mark paid)
+      allow update: if isAdmin() || isModerator();
+      allow delete: if false;
+    }
+
+    // Transactions ledger
+    match /transactions/{id} {
+      allow read: if isSignedIn() && (isAdmin() || isModerator() || resource.data.userUid == request.auth.uid);
+      // Users may create a pending withdrawal transaction for themselves only
+      allow create: if (
+          (isSignedIn()
+            && request.resource.data.userUid == request.auth.uid
+            && request.resource.data.type == 'withdrawal'
+            && request.resource.data.status == 'pending'
+            && request.resource.data.amountCents is int
+            && request.resource.data.amountCents <= 0
+            && request.resource.data.createdBy == request.auth.uid
+            && request.resource.data.keys().hasOnly([
+              'type','amountCents','userUid','relatedWithdrawalId','status','createdAt','createdBy'
+            ])
+          )
+          || (isAdmin() || isModerator())
+        );
+      // Staff can update ledger entries (e.g., posting payouts)
+      allow update: if isAdmin() || isModerator();
+      allow delete: if false;
+    }
+  }
+}
