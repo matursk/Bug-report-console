@@ -35,6 +35,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/podmienky" element={<Podmienky />} />
         <Route
           path="/locked"
           element={
@@ -53,7 +54,6 @@ export default function App() {
         >
           <Route index element={<UserDashboard />} />
           <Route path="billing" element={<BillingPage />} />
-          <Route path="podmienky" element={<Podmienky />} />
           <Route
             path="moderator"
             element={
