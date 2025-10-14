@@ -9,6 +9,7 @@ import RoleManager from './pages/RoleManager.jsx'
 import LockedPage from './pages/LockedPage.jsx'
 import Layout from './components/Layout.jsx'
 import BillingPage from './pages/BillingPage.jsx'
+import Podmienky from './pages/Podmienky.jsx'
 
 function PrivateRoute({ children }) {
   const { user, loading, profile } = useAuth()
@@ -52,6 +53,7 @@ export default function App() {
         >
           <Route index element={<UserDashboard />} />
           <Route path="billing" element={<BillingPage />} />
+          <Route path="podmienky" element={<Podmienky />} />
           <Route
             path="moderator"
             element={

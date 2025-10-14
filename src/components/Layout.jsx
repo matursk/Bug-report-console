@@ -38,7 +38,9 @@ export default function Layout() {
           <Outlet />
         </div>
       </main>
-      <footer className="p-4 text-center text-xs opacity-60">© {new Date().getFullYear()} Matur</footer>
+      <footer className="p-4 text-center text-xs opacity-60">
+        © {new Date().getFullYear()} Matur · <Link to="/podmienky" className="link">Podmienky</Link>
+      </footer>
     </div>
   )
 }
