@@ -178,6 +178,7 @@ export default function AdminPanel(){
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold">Pending withdrawals</h3>
+            <div className="text-xs opacity-70 mb-2">Policy: minimum withdrawal €10.00, no payout fees. Payouts should be processed within 5 business days.</div>
             <div className="overflow-x-auto">
               <table className="table table-zebra">
                 <thead>

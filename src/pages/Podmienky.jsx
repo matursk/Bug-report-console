@@ -13,6 +13,9 @@ export default function Podmienky(){
           Používaním služby a/alebo účasťou na Akcii vyjadrujete súhlas s týmito Podmienkami a zaväzujete sa
           ich dodržiavať. Ak s Podmienkami nesúhlasíte, Akcie sa nezúčastňujte a službu nepoužívajte.
         </p>
+        <p>
+          Prevádzkovateľom služby je <strong>Matur</strong>, so sídlom na webe <strong>matur.sk</strong>.
+        </p>
       </section>
 
       <section className="space-y-3">
@@ -61,6 +64,7 @@ export default function Podmienky(){
           <li>Nahlásenia posudzujú moderátori/administrátori; rozhodnutie môže byť <em>schválené</em>, <em>čiastočné</em>, <em>zamietnuté</em> alebo <em>eskalované</em>.</li>
           <li>Rozhodnutie je Používateľovi oznámené v aplikácii; Prevádzkovateľ môže vyžiadať doplnenie informácií.</li>
           <li>Duplicitné nahlásenia sú bez nároku na odmenu; prioritu má <strong>prvé platné</strong> nahlásenie tej istej chyby.</li>
+          <li>Prevádzkovateľ posúdi nahlásenie <strong>do 3 pracovných dní</strong> od jeho doručenia, pokiaľ mimoriadne okolnosti nebránia dodržaniu lehoty.</li>
         </ul>
       </section>
 
@@ -69,7 +73,10 @@ export default function Podmienky(){
         <ul className="list-disc pl-6 space-y-1">
           <li>Za <strong>schválené</strong> nahlásenie sa priznáva odmena <strong>5 €</strong>, ktorá sa pripíše na zostatok účtu Používateľa.</li>
           <li>Za čiastočne uznané nahlásenia sa odmena nepriznáva, pokiaľ Prevádzkovateľ neustanoví inak.</li>
-          <li>Výber odmien je možný prostredníctvom dostupných metód v časti <em>Výbery</em>; môžu platiť minimá, lehoty spracovania a poplatky tretích strán.</li>
+          <li>Výber odmien je možný prostredníctvom dostupných metód v časti <em>Výbery</em>. <strong>Minimálna suma na výber je 10 €</strong>.</li>
+          <li><strong>Neúčtujeme poplatky</strong> za výplatu; poplatky tretích strán neaplikujeme.</li>
+          <li>Po schválení výberu bude výplata spracovaná <strong>do 5 pracovných dní</strong>.</li>
+          <li>Pri chybe väčšej závažnosti si Prevádzkovateľ vyhradzuje právo poskytnúť <strong>mimoriadnu (extra) odmenu</strong>.</li>
           <li>Prevádzkovateľ môže dočasne pozastaviť výplatu pri podozrení na zneužitie, až do ukončenia preverenia.</li>
         </ul>
       </section>
@@ -79,6 +86,7 @@ export default function Podmienky(){
         <ul className="list-disc pl-6 space-y-1">
           <li>Hromadné, automatizované alebo zjavne špekulatívne nahlásenia môžu viesť k odmietnutiu či zablokovaniu účtu.</li>
           <li>Prevádzkovateľ je oprávnený obmedziť frekvenciu nahlásení alebo zaviesť dodatočné overovanie kvality.</li>
+          <li><strong>Zamestnanci Prevádzkovateľa</strong> nie sú oprávnení získať odmenu v rámci Akcie.</li>
         </ul>
       </section>
 
@@ -95,6 +103,7 @@ export default function Podmienky(){
         <ul className="list-disc pl-6 space-y-1">
           <li>Používateľ sa zdrží konania, ktoré by viedlo k neoprávnenému prístupu, strate dát alebo narušeniu dostupnosti služby.</li>
           <li>Testovanie vykonávajte primerane a neprekračujte zákonné ani etické hranice.</li>
+          <li><strong>Safe harbor</strong>: Pri nahlasovaní v dobrej viere a dodržaní týchto pravidiel nebudeme voči Používateľovi uplatňovať právne kroky týkajúce sa samotného nahlásenia.</li>
         </ul>
       </section>
 
@@ -120,7 +129,9 @@ export default function Podmienky(){
         <p>
           Osobné údaje sú spracúvané v súlade s príslušnými právnymi predpismi a internými zásadami ochrany súkromia.
           Rozsah a účel spracúvania zahŕňa komunikáciu s Používateľom, vyhodnotenie nahlásenia a vedenie záznamov o odmenách.
-          V nahláseniach nezverejňujte osobné údaje tretích osôb bez ich preukázateľného súhlasu.
+          Údaje uchovávame <strong>na dobu neurčitú</strong> za účelom zlepšovania aplikácie a jej funkcií. Používateľ môže kedykoľvek
+          požiadať o <strong>vymazanie (purge)</strong> svojich údajov; žiadosti budú posudzované v súlade s právnymi predpismi a
+          technickými možnosťami.
         </p>
       </section>
 
@@ -136,9 +147,10 @@ export default function Podmienky(){
       <section className="space-y-3">
         <h2 className="text-xl font-semibold">15. Rozhodné právo a riešenie sporov</h2>
         <p>
-          Tieto Podmienky sa spravujú právnym poriadkom Slovenskej republiky. Spory vyplývajúce z týchto Podmienok
-          sa budú primárne riešiť zmierom; ak k dohode nedôjde, príslušným je súd podľa sídla Prevádzkovateľa, ak
-          kogentné predpisy neustanovujú inak.
+          Tieto Podmienky sa spravujú právnym poriadkom Slovenskej republiky a Prevádzkovateľ sídli na území SR. Spory
+          vyplývajúce z týchto Podmienok sa budú primárne riešiť zmierom; ak k dohode nedôjde, príslušným je súd podľa
+          sídla Prevádzkovateľa, ak kogentné predpisy neustanovujú inak. Neustanovujeme žiadne dodatočné osobitné režimy
+          pre spotrebiteľov nad rámec platných právnych predpisov.
         </p>
       </section>
 
@@ -152,8 +164,8 @@ export default function Podmienky(){
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-xl font-semibold">17. Kontakt</h2>
-        <p>V prípade otázok alebo žiadostí nás kontaktujte prostredníctvom podpory v aplikácii.</p>
+        <h2 className="text-xl font-semibold">17. Kontakt a odvolanie</h2>
+        <p>V prípade otázok alebo žiadostí nás kontaktujte prostredníctvom podpory v aplikácii. Odvolanie voči rozhodnutiu o nahlásení je možné podať prostredníctvom <strong>support ticketu</strong>.</p>
       </section>
     </div>
   )

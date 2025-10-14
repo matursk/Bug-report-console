@@ -43,6 +43,7 @@ export default function UserDashboard(){
     setError('')
     const amt = Math.round(parseFloat(amount)*100)
     if(!amt || amt<=0) { setError('Enter valid amount'); setBusy(false); return }
+    if(amt < 1000) { setError('Minimum withdrawal is €10.00'); setBusy(false); return }
     if((profile?.balanceCents??0) < amt){ setError('Insufficient balance'); setBusy(false); return }
     if(!profile?.billingFullName || !profile?.billingAddress){ setError('Complete billing profile first'); setBusy(false); return }
     // require billing profile exists
@@ -118,10 +119,10 @@ export default function UserDashboard(){
             <>
               <input className="input input-bordered" placeholder="Full name" value={fullName} onChange={e=>setFullName(e.target.value)} required />
               <input className="input input-bordered" placeholder="PayPal email" type="email" value={paypalEmail} onChange={e=>setPaypalEmail(e.target.value)} required />
-              <div className="text-xs opacity-70">PayPal standard fees apply.</div>
             </>
           )}
-          <input className="input input-bordered" placeholder="Amount (EUR)" type="number" min="1" step="0.01" value={amount} onChange={e=>setAmount(e.target.value)} required />
+          <input className="input input-bordered" placeholder="Amount (EUR)" type="number" min="10" step="0.01" value={amount} onChange={e=>setAmount(e.target.value)} required />
+          <div className="text-xs opacity-70">Minimum withdrawal €10.00. No payout fees. Payouts processed within 5 business days.</div>
           {error && <div className="alert alert-error text-sm">{error}</div>}
           <button className={`btn btn-primary ${busy?'loading':''}`} disabled={busy}>Request withdrawal</button>
         </form>
