@@ -1,6 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import logoUrl from '../assets/logo.png'
 
 export default function Layout() {
   const { user, profile, signOut } = useAuth()
@@ -10,7 +9,7 @@ export default function Layout() {
       <div className="navbar bg-base-200/60 backdrop-blur border-b border-base-300">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost normal-case text-xl flex items-center gap-2">
-            <img src={logoUrl} alt="Logo" className="w-7 h-7 object-contain" />
+            <img src="/app_icon.png" alt="Matur logo" className="w-7 h-7 object-contain" />
             Bug Console
           </Link>
         </div>
